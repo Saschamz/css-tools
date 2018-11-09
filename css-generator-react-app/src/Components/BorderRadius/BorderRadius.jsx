@@ -18,7 +18,7 @@ export default class BorderRadius extends Component {
   }
 
   _update(value, index) {
-    const { borders } = this.state; // { topleft: 5, topright: 5 }
+    const { borders } = this.state;
     switch (index) {
       case 0:
         borders.topleft = value;

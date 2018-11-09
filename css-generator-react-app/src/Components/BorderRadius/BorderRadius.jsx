@@ -1,4 +1,5 @@
-import React, { Component } from 'react'
+import React, { Component, createRef } from 'react';
+import './BorderRadius.scss';
 
 export default class BorderRadius extends Component {
   constructor(props) {
@@ -11,9 +12,23 @@ export default class BorderRadius extends Component {
           min: 0,
           max: 100,
           label: 'Radius',
+          value: 50,
         },
       ],
+
     };
+
+    this.box = createRef();
+  }
+
+
+
+  updateValueAll = (e) => {
+    const newState = this.state;
+    newState.settings[0].value = e.target.value;
+    this.setState(newState);
+    const box = this.box.current;
+    box.style.borderRadius = `${e.target.value}px`;
   }
 
   render() {
@@ -29,17 +44,18 @@ export default class BorderRadius extends Component {
                 <div className="setting">
                   <span className="label">{setting.label}</span><br />
                   <input
-                    onChange={someFunctionToChangeProperty}
+                    onChange={this.updateValueAll}
                     type={setting.type}
                     min={setting.min}
-                    max={setting.max} />
-                  <span className="label-stat">0%</span>
+                    max={setting.max}
+                  />
+                  <span className="label-stat">{setting.value}</span>
                 </div>
               ))}
             </div>
 
             <div className="card-showcase">
-              <div className="card-showcase-box"></div>
+              <div ref={this.box} className="card-showcase-box"></div>
             </div>
           </div>
         </div>
@@ -47,3 +63,6 @@ export default class BorderRadius extends Component {
     )
   }
 }
+
+
+

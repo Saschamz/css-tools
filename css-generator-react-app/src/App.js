@@ -8,7 +8,7 @@ import Content from './Components/Content/Content';
 
 const App = () => (
   <div>
-    <Nav />
+    {/* <Nav /> */}
     <Content />
   </div>
 );

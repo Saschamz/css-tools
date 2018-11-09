@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
+import './Slider.scss';
 
 class Slider extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      value: 0,
+      value: this.props.start || 0,
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -33,9 +34,12 @@ class Slider extends Component {
         >
         </input>
         <input
+          min="0"
+          max="100"
           onChange={this.handleChange}
           type="number"
           placeholder={this.state.value} />
+        {this.props.type}
       </div>
     )
   };

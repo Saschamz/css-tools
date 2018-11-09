@@ -1,6 +1,7 @@
-import React, { Component, createRef } from 'react';
+import React, { Component } from 'react';
 import './BorderRadius.scss';
 import Slider from '../Slider/Slider';
+import CodeBox from '../CodeBox/CodeBox';
 
 export default class BorderRadius extends Component {
   constructor(props) {
@@ -14,8 +15,6 @@ export default class BorderRadius extends Component {
         bottomright: 0
       }
     };
-
-    this.box = createRef();
   }
 
   _update(value, index) {
@@ -46,6 +45,10 @@ export default class BorderRadius extends Component {
     const css = {
       borderRadius: `${topleft}% ${topright}% ${bottomright}% ${bottomleft}%`,
     };
+    const code = [
+      `border-radius: ${topleft}% ${topright}% ${bottomright}% ${bottomleft}%;`
+    ];
+
 
     const labels = ['Topleft', 'Topright', 'Bottomright', 'Bottomleft'];
 
@@ -56,15 +59,18 @@ export default class BorderRadius extends Component {
           <div className="card-content">
             <div className="settings">
               {labels.map((label, index) => (
-                <Slider label={label}
+                <Slider
+                  type="%"
+                  label={label}
                   update={(value) => this._update(value, index)} />
               ))}
             </div>
 
-            <div className="card-showcase">
-              <div ref={this.box} style={css} className="card-showcase-box"></div>
+            <div className="card-showcase card-showcase--inverted">
+              <div style={css} className="card-showcase-box"></div>
             </div>
           </div>
+          <CodeBox code={code} />
         </div>
       </div>
     )

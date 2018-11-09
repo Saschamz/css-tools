@@ -1,38 +1,53 @@
 import React, { Component, createRef } from 'react';
 import './BorderRadius.scss';
+import Slider from '../Slider/Slider';
 
 export default class BorderRadius extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      settings: [
-        {
-          type: 'range',
-          min: 0,
-          max: 100,
-          label: 'Radius',
-          value: 50,
-        },
-      ],
-
+      borders: {
+        topleft: 0,
+        topright: 0,
+        bottomleft: 0,
+        bottomright: 0
+      }
     };
 
     this.box = createRef();
   }
 
+  _update(value, index) {
+    const { borders } = this.state; // { topleft: 5, topright: 5 }
+    switch (index) {
+      case 0:
+        borders.topleft = value;
+        break;
 
+      case 1:
+        borders.topright = value;
+        break;
 
-  updateValueAll = (e) => {
-    const newState = this.state;
-    newState.settings[0].value = e.target.value;
-    this.setState(newState);
-    const box = this.box.current;
-    box.style.borderRadius = `${e.target.value}px`;
+      case 2:
+        borders.bottomright = value;
+        break;
+
+      case 3:
+        borders.bottomleft = value;
+        break;
+    }
+
+    this.setState(prevState => ({ ...prevState, borders }));
   }
 
   render() {
-    const { settings } = this.state;
+    const { topleft, topright, bottomright, bottomleft } = this.state.borders;
+    const css = {
+      borderRadius: `${topleft}% ${topright}% ${bottomright}% ${bottomleft}%`,
+    };
+
+    const labels = ['Topleft', 'Topright', 'Bottomright', 'Bottomleft'];
 
     return (
       <div className="card-container">
@@ -40,22 +55,14 @@ export default class BorderRadius extends Component {
           <h1 className="card-title">Border Radius</h1>
           <div className="card-content">
             <div className="settings">
-              {settings.map(setting => (
-                <div className="setting">
-                  <span className="label">{setting.label}</span><br />
-                  <input
-                    onChange={this.updateValueAll}
-                    type={setting.type}
-                    min={setting.min}
-                    max={setting.max}
-                  />
-                  <span className="label-stat">{setting.value}</span>
-                </div>
+              {labels.map((label, index) => (
+                <Slider label={label}
+                  update={(value) => this._update(value, index)} />
               ))}
             </div>
 
             <div className="card-showcase">
-              <div ref={this.box} className="card-showcase-box"></div>
+              <div ref={this.box} style={css} className="card-showcase-box"></div>
             </div>
           </div>
         </div>
